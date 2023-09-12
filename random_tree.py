@@ -17,14 +17,14 @@ class RandomTree:
 
         self.node1 = TreeNode(self.q_init, None)
 
-        self.xs = [1, 5, 10, 15, 20]
-        self.ys = [2, 6, 12, 18, 24]
+        self.xs = [self.q_init[0]]
+        self.ys = [self.q_init[1]]
 
         self.segments = []
         #self.line_coll = 
         self.nodes = [self.node1]
         #self.fake_node_pos = [[0.4, 9.8], [99.1, 89.2], [1.3, 98.4], [84.3, 3.0]]
-        self.node_pos = [self.q_init, [0.4, 9.8], [99.1, 89.2], [1.3, 98.4], [84.3, 3.0]]
+        self.node_pos = [self.q_init]
 
 
     def get_q_rand(self):
@@ -60,7 +60,7 @@ class RandomTree:
         new_node_pos = [new_node_posx * self.delta, new_node_posy*self.delta]
 
         # # Append the segments array to include new line
-        # self.segments.append(np.array([new_point, new_node_pos]))
+        
 
         return index_no, new_node_pos
         #print(index_no, new_node_pos)
@@ -75,9 +75,9 @@ class RandomTree:
 
 
 
-        """create line segments"""
-        for point in range(1,4):
-            self.segments.append(np.array([[self.xs[0], self.ys[0]],[self.xs[point],self.ys[point]]]))
+        # """create line segments"""
+        # for point in range(1,4):
+        #     self.segments.append(np.array([[self.xs[0], self.ys[0]],[self.xs[point],self.ys[point]]]))
             
 
         line_coll = LineCollection(self.segments)
@@ -96,15 +96,31 @@ class RandomTree:
 
     def create_tree(self, k):
 
-        for i in range(k):
+        for i in range(0, k):
             # Create a random point, node, and return nearest node index and new node position
             index, pos = self.closest_node()
+
+            # append new node position to points
+            self.xs.append(pos[0])
+            self.ys.append(pos[1])
 
             # Append node pos array
             self.node_pos.append(pos)
 
             # create new node instance
+            print(index)
+            print(f"length of nodes list is: {len(self.nodes)}")
             self.nodes.append(TreeNode(pos, self.nodes[index]))
+
+            print(self.nodes[index].position)
+
+            # Append line segments array
+            self.segments.append(np.array([self.nodes[index].position, pos]))
+
+        # Create plot
+        self.plot_G()
+
+
 
 
 
@@ -114,4 +130,5 @@ class RandomTree:
 thing = RandomTree()
 #thing.plot_G()
 thing.node1.print_node_list()
-thing.closest_node()
+#thing.closest_node()
+thing.create_tree(500)
