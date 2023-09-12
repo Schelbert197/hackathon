@@ -17,15 +17,34 @@ class RandomTree:
 
         self.node1 = TreeNode(self.q_init, None)
 
+        # X and Y of each node
         self.xs = [self.q_init[0]]
         self.ys = [self.q_init[1]]
 
+        # X and Y of obstacles
+        self.xo = []
+        self.yo = []
+
         self.segments = []
-        #self.line_coll = 
+        
         self.nodes = [self.node1]
         #self.fake_node_pos = [[0.4, 9.8], [99.1, 89.2], [1.3, 98.4], [84.3, 3.0]]
         self.node_pos = [self.q_init]
 
+
+    def create_obstacles(self, N=10):
+        np.random.seed(19680801)
+        self.xo.append(np.random.rand(N)*100)
+        self.yo.append(np.random.rand(N)*100)
+
+        colors = np.random.rand(N)
+        area = (30*np.random.rand(N))**2 # 0 to 15 pt radii
+
+        fig, ax = plt.subplots()
+
+        return colors, area
+
+        #ans=input("are you done?")
 
     def get_q_rand(self):
         """Generate the random points"""
@@ -71,14 +90,7 @@ class RandomTree:
 
 
     def plot_G(self, x_axis=100, y_axis=100):
-        """Plot the tree with the defined size"""
-
-
-
-        # """create line segments"""
-        # for point in range(1,4):
-        #     self.segments.append(np.array([[self.xs[0], self.ys[0]],[self.xs[point],self.ys[point]]]))
-            
+        """Plot the tree with the defined size"""   
 
         line_coll = LineCollection(self.segments)
         print(type(line_coll))
@@ -91,6 +103,10 @@ class RandomTree:
 
         # Set the range for each axis
         ax.axis([0, x_axis, 0, y_axis])
+
+        colors, area = self.create_obstacles()
+
+        ax.scatter(self.xo, self.yo, s=area, c=colors, alpha=0.5)
         ax.scatter(self.xs, self.ys)
         plt.show()
 
@@ -129,6 +145,7 @@ class RandomTree:
 
 thing = RandomTree()
 #thing.plot_G()
-thing.node1.print_node_list()
+#thing.node1.print_node_list()
 #thing.closest_node()
 thing.create_tree(500)
+
