@@ -40,7 +40,7 @@ class RandomTree:
         colors = np.random.rand(N)
         area = (30*np.random.rand(N))**2 # 0 to 15 pt radii
 
-        fig, ax = plt.subplots()
+        # fig, ax = plt.subplots()
 
         return colors, area
 
@@ -85,6 +85,7 @@ class RandomTree:
         #print(index_no, new_node_pos)
 
     def create_node(self, pos, parent):
+        """Create a new instance of a node"""
         node = TreeNode(pos, parent)
         parent.add_child(node)
 
@@ -95,7 +96,7 @@ class RandomTree:
         line_coll = LineCollection(self.segments)
         print(type(line_coll))
 
-        plt.style.use('seaborn')
+        # plt.style.use('seaborn')
         fig, ax = plt.subplots()
 
         # add line segments to plot
@@ -111,7 +112,7 @@ class RandomTree:
         plt.show()
 
     def create_tree(self, k):
-
+        """Generate a tree and plot it"""
         for i in range(0, k):
             # Create a random point, node, and return nearest node index and new node position
             index, pos = self.closest_node()
@@ -147,5 +148,5 @@ thing = RandomTree()
 #thing.plot_G()
 #thing.node1.print_node_list()
 #thing.closest_node()
-thing.create_tree(500)
+thing.create_tree(1000)
 
